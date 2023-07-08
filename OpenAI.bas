@@ -1174,10 +1174,11 @@ Function GetOpenAIKey(Optional api_key As String) As Variant
     End If
 End Function
 
-Sub SetOpenAIKey(api_key As String)
+Function SetOpenAIKey(api_key As String)
     Dim envVarName As String
     Dim envVarValue As String
     
+    SetOpenAIKey = False
     envVarName = "OPENAI_API_KEY"
     envVarValue = Environ(envVarName)
     
@@ -1191,12 +1192,14 @@ Sub SetOpenAIKey(api_key As String)
         If result = vbYes Then
             ' Update the environment variable
             SetEnvironmentVariable envVarName, api_key
+            SetOpenAIKey = True
         End If
     Else
         ' Set the environment variable
         SetEnvironmentVariable envVarName, api_key
+        SetOpenAIKey = True
     End If
-End Sub
+End Function
 
 Sub SetEnvironmentVariable(envVarName As String, envVarValue As String)
     Dim wsh As Object
